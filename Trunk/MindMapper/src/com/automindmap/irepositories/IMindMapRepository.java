@@ -2,17 +2,17 @@ package com.automindmap.irepositories;
 
 import java.util.List;
 
-import com.automindmap.models.MindMap;
+import com.automindmap.models.Map;
 
 public interface IMindMapRepository {
 
-	public boolean addMap(MindMap mindMap);
+	public int addMap(Map map);
 	
-	public boolean updateMap(MindMap mindMap);
+	public boolean updateMap(Map map);
 	
-	public int getLastInsertId();
-	public MindMap getMapById(int map_id);
-	public List<MindMap> getMapByUser(int user_id);
-	public List<MindMap> getMapByName(String name);
+	
+	public Map getMapById(int map_id);
+	public List<Map> getMapByUser(int user_id);
+	public List<Map> getMapByName(String name);
 	
 }

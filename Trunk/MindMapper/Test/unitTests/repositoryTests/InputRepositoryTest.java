@@ -18,7 +18,7 @@ public class InputRepositoryTest {
 		input.userId=1;
 		input.input="test Input";
 		
-		assertTrue("add input",_unitofwork.input.addInput(input));
+		assertTrue("add input",_unitofwork.input.addInput(input)>0);
 		assertEquals("delete input", 1,_unitofwork.input.deleteInput(input));
 		
 	}

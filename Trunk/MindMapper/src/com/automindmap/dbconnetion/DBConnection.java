@@ -36,18 +36,24 @@ public class DBConnection {
 		return connection;
 	}
 
-	public boolean insert(String query) {
-		boolean isexecuted = false;
+	public int insert(String query) {
+	
+		int lastId=-1;
 
 		try {
 			Statement statement = getDatabaseConnetion().createStatement();
-			isexecuted = statement.execute(query);
+			statement.execute(query,Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs = statement.getGeneratedKeys();
+	        if (rs.next()){
+	        	lastId=rs.getInt(1);
+	        }
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return !isexecuted;
+		return lastId;
 	}
 
 	public int update(String query) {

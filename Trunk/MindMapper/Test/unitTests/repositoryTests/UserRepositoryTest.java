@@ -15,7 +15,7 @@ public class UserRepositoryTest {
 		User user=new User();
 		user.userName="Milinau";		
 
-		assertTrue("User adding oK",_unitofwork.user.addUser(user));
+		assertTrue("User adding oK",_unitofwork.user.addUser(user)>1);
 		assertEquals("User deletedexpected",1,_unitofwork.user.deleteUser(user.userName));
 
 	}

@@ -3,40 +3,41 @@ package com.automindmap.repositories;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.automindmap.dbconnetion.DBConnection;
 import com.automindmap.irepositories.IMindMapRepository;
-import com.automindmap.models.MindMap;
+import com.automindmap.models.Map;
 
 public class MindMapRepository implements IMindMapRepository {
 
 	@Override
-	public boolean addMap(MindMap mindMap) {
+	public int addMap(Map map) {
 		String query = "INSERT INTO map(name, user_id)"
-				+ " VALUES ('" + mindMap.name+"','"+mindMap.userId
+				+ " VALUES ('" + map.name+"','"+map.userId
 				+ "')";
 
 		return DBConnection.getDConnection().insert(query);	
 	}
 
 	@Override
-	public boolean updateMap(MindMap mindMap) {
+	public boolean updateMap(Map map) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public MindMap getMapById(int MapID) {
-		MindMap mindMap = new MindMap();
-		String query = "SELECT * FROM input WHERE id="+MapID;
+	public Map getMapById(int MapID) {
+		Map map = new Map();
+		String query = "SELECT * FROM map WHERE id="+MapID;
 		ResultSet resultSet = DBConnection.getDConnection().select(query);
 		try {
 			while (resultSet.next()) {
 				
-				mindMap.id=Integer.parseInt(resultSet.getString("id"));				
-				mindMap.userId=Integer.parseInt(resultSet.getString("user_id"));
-				mindMap.name=resultSet.getString("name").toString();
+				map.id=Integer.parseInt(resultSet.getString("id"));				
+				map.userId=Integer.parseInt(resultSet.getString("user_id"));
+				map.name=resultSet.getString("name").toString();
 
 			}
 
@@ -44,34 +45,34 @@ public class MindMapRepository implements IMindMapRepository {
 			e.printStackTrace();	
 		}
 
-		return null;
+		return map;
 	}
 	
 	@Override
-	public int getLastInsertId() {
-		String query = "SELECT LAST_INSERT_ID() FROM map ";
+	public List<Map> getMapByUser(int user_id) {
+		List<Map> maps=new ArrayList<Map>() ;
+		String query="SELECT * FROM map WHERE user_id="+user_id;
 		ResultSet resultSet = DBConnection.getDConnection().select(query);
-		int id=0;
 		try {
-			if (resultSet.next()) {
+			while (resultSet.next()) {
 				
-				id=Integer.parseInt(resultSet.getString("LAST_INSERT_ID()"));
+				Map map=new Map();
+				map.id=resultSet.getInt("id");				
+				map.userId=resultSet.getInt("user_id");
+				map.name=resultSet.getString("name");
 				
+				maps.add(map);
 			}
 
 		} catch (SQLException e) {				
 			e.printStackTrace();	
 		}
-		return id;
-	}
-	@Override
-	public List<MindMap> getMapByUser(int user_id) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return maps;
 	}
 
 	@Override
-	public List<MindMap> getMapByName(String name) {
+	public List<Map> getMapByName(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

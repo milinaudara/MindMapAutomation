@@ -20,8 +20,8 @@ public class InputProcessor {
 		input.userId=userID;
 		input.input=inputText;
 
-		_unitofwork.input.addInput(input);
-		input.id=_unitofwork.input.getLastInsertId();
+		input.id=_unitofwork.input.addInput(input);
+		
 
 
 		// Get sentences of the input.
@@ -72,7 +72,7 @@ public class InputProcessor {
 		{
 			passerTree += s + " ";
 		}
-		
+		System.out.println(passerTree);
 		// Assign values to chanked object.
 		
 		ChankedObject chankedObject=new ChankedObject();

@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Map</title>
-<script src="<s:url value="/js/jquery-1.10.2.min.js"/>"></script>
+<script src="sys_js/jquery-1.10.2.min.js"></script>
 <script>
 /*When document is loaded, attach following function to the Onclick event of all the forms decorated with class=UserInputs*/
  
@@ -40,7 +40,7 @@
         </script>
 </head>
 <body>
-<form action="<s:url value="map-process"/>" class="UserInputs" method="post">    
+<form action="<s:url value="map/map-process"/>" class="UserInputs" method="post">    
   Map Id    <input type="text" name="mapId" id /> 
   Input Text <input type="text" name="inputText" />
    <button id="btnFrmPost1" >Post</button>

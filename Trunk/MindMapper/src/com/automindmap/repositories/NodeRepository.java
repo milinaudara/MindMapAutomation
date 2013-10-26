@@ -2,16 +2,43 @@ package com.automindmap.repositories;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.automindmap.dbconnetion.DBConnection;
 import com.automindmap.irepositories.INodeRepository;
+import com.automindmap.models.Input;
 import com.automindmap.models.Node;
 
 public class NodeRepository implements INodeRepository {
 
 	@Override
-	public boolean addNode(Node node) {
+	public int addNode(Node node) {
 	
+	
+		if(node.parantId==0){
+		String query = "SELECT * FROM node WHERE map_id= "+node.mapId+" and value='"+node.value+"'";
+		ResultSet resultSet = DBConnection.getDConnection().select(query);
+		try {
+			if (resultSet.next()) {
+				return resultSet.getInt("id");				
+			}
+
+		} catch (SQLException e) {				
+			e.printStackTrace();	
+		}
+		}else {
+			String query = "SELECT * FROM node WHERE map_id= "+node.mapId+" and value='"+node.value+"' and parent_id='"+node.parantId+"'";
+			ResultSet resultSet = DBConnection.getDConnection().select(query);
+			try {
+				if (resultSet.next()) {
+					return resultSet.getInt("id");				
+				}
+
+			} catch (SQLException e) {				
+				e.printStackTrace();	
+			}
+		}
 		String query = "INSERT INTO node(map_id, value,parent_id)"
 				+ " VALUES ('" + node.mapId+"','"+node.value+"','"+node.parantId
 				+ "')";
@@ -36,22 +63,50 @@ public class NodeRepository implements INodeRepository {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 	@Override
-	public int getLastInsertId() {
-		String query = "SELECT LAST_INSERT_ID() FROM node ";
+	public Node getPerantNode(int mapId) {
+		Node node =new	Node();
+		String query = "SELECT * FROM node WHERE map_id= "+mapId+" and parent_id=0";
 		ResultSet resultSet = DBConnection.getDConnection().select(query);
-		int id=0;
-		
 		try {
 			if (resultSet.next()) {
-				
-				id=Integer.parseInt(resultSet.getString("LAST_INSERT_ID()"));
-				
+				node.id=resultSet.getInt("id");
+				node.mapId=resultSet.getInt("map_id");
+				node.value=resultSet.getString("value");
+				node.parantId=resultSet.getInt("parent_id");
 			}
 
 		} catch (SQLException e) {				
 			e.printStackTrace();	
 		}
-		return id;
+
+		return node;
 	}
+
+	@Override
+	public List<Node> getChildNodes(int id) {
+		List<Node> nodeList=new ArrayList<Node>();
+		String query = "SELECT * FROM node WHERE parent_id="+id;
+		ResultSet resultSet = DBConnection.getDConnection().select(query);
+		try {
+			while (resultSet.next()) {
+				Node node= new Node();
+				node.id=resultSet.getInt("id");
+				node.mapId=resultSet.getInt("map_id");
+				node.value=resultSet.getString("value");
+				node.parantId=resultSet.getInt("parent_id");
+				nodeList.add(node);
+			}
+
+		} catch (SQLException e) {				
+			e.printStackTrace();	
+		}
+
+		return nodeList;
+	}
+
+	
+	
+	
 }

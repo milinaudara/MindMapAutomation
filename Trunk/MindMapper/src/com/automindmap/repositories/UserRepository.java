@@ -11,7 +11,7 @@ import com.automindmap.models.User;
 public class UserRepository implements IUserRepository {
 
 	@Override
-	public boolean addUser(User user) {
+	public int addUser(User user) {
 		String query = "INSERT INTO user(user_name)"
 				+ " VALUES ('" + user.userName
 				+ "')";
@@ -86,23 +86,7 @@ public class UserRepository implements IUserRepository {
 	}
 
 	
-	@Override
-	public int getLastInsertId() {
-		String query = "SELECT LAST_INSERT_ID() FROM user ";
-		ResultSet resultSet = DBConnection.getDConnection().select(query);
-		int id=0;
-		try {
-			if (resultSet.next()) {
-				
-				id=Integer.parseInt(resultSet.getString("LAST_INSERT_ID()"));
-				
-			}
-
-		} catch (SQLException e) {				
-			e.printStackTrace();	
-		}
-		return id;
-	}
+	
 	
 	
 }

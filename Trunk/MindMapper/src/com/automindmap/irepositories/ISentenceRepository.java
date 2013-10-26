@@ -6,10 +6,7 @@ import com.automindmap.models.Sentence;
 
 public interface ISentenceRepository {
 
-	public boolean addSentence(Sentence sentence);
-	
-	public boolean updateSentece(Sentence sentence);
-	
-	public int getLastInsertId();
+	public int addSentence(Sentence sentence);	
+	public boolean updateSentece(Sentence sentence);	
 	public List<Sentence> getSentenceByMap(int mapId);
 }

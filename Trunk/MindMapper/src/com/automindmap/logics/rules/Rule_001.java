@@ -24,11 +24,11 @@ import com.automindmap.repositories.UnitOfWork;
 		node.value=chankedObject.clearedChankedPhrases.get(0);
 		node.parantId=0;
 		
-		_unOfWork.node.addNode(node);
+		node.parantId=_unOfWork.node.addNode(node);
 		
 		//add second NP		
 		node.value=chankedObject.clearedChankedPhrases.get(1);
-		node.parantId=_unOfWork.node.getLastInsertId();
+	
 		_unOfWork.node.addNode(node);
 	}
 

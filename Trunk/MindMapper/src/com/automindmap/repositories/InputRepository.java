@@ -14,7 +14,7 @@ import com.automindmap.models.Input;
 public class InputRepository implements IInputRepository {
 
 	@Override
-	public boolean addInput(Input input) {
+	public int addInput(Input input) {
 		String query = "INSERT INTO input(map_id, user_id, input)"
 				+ " VALUES ('" + input.mapId+"','"+input.userId+"','"+input.input
 				+ "')";
@@ -54,22 +54,7 @@ public class InputRepository implements IInputRepository {
 		return DBConnection.getDConnection().update(query);	
 	}
 
-	@Override
-	public int getLastInsertId() {
-		String query = "SELECT LAST_INSERT_ID() FROM input ";
-		ResultSet resultSet = DBConnection.getDConnection().select(query);
-		int id=0;
-		try {
-			if (resultSet.next()) {
-				
-				id=Integer.parseInt(resultSet.getString("LAST_INSERT_ID()"));
-				
-			}
+	
 
-		} catch (SQLException e) {				
-			e.printStackTrace();	
-		}
-		return id;
-	}
 
 }
