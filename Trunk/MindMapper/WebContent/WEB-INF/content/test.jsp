@@ -298,5 +298,46 @@
 	})();
 </script>
 /PRODUCTION -->
+<script type="text/javascript">
+var eventBus = new mindmaps.EventBus();
+var shortcutController = new mindmaps.ShortcutController();
+var commandRegistry = new mindmaps.CommandRegistry(shortcutController);
+var mindmapModel = new mindmaps.MindMapModel(eventBus, commandRegistry);
+var presenter = new mindmaps.OpenDocumentPresenter(eventBus,
+		mindmapModel, new mindmaps.OpenDocumentView());
+presenter.go();
+$.ajax(
+		{
+			url : 'map/test-process',
+			type : 'post',			
+			dataType : 'json',
+			success : function(data)
+			{
+				var n = data.mindmap.replace("\\","");
+				//data=jQuery.parseJSON(n);
+				
+				var doc=mindmaps.Document.fromJSON(n);
+				var eventBus = new mindmaps.EventBus();
+				var shortcutController = new mindmaps.ShortcutController();
+				var commandRegistry = new mindmaps.CommandRegistry(shortcutController);
+				var mindmapModel = new mindmaps.MindMapModel(eventBus, commandRegistry);
+				var view=new mindmaps.OpenDocumentView()
+				//new mindmaps.NewDocumentView()
+				mindmapModel.setDocument(doc);
+				view.hideOpenDialog();
+				// empty list and insert list of documents
+				/*var $list = $(".database-list", $dialog).empty();
+
+				$("#template-open-table-item").tmpl(data, {
+					format : function(date) {
+						date = new Date(date);
+						var day = date.getDate();
+						var month = date.getMonth() + 1;
+						var year = date.getFullYear();
+						return day + "/" + month + "/" + year;
+					}
+				}).appendTo($list);*/
+			}
+		})</script>
 </body>
 </html>
