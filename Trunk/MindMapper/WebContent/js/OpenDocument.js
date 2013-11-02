@@ -116,33 +116,7 @@ mindmaps.OpenDocumentPresenter = function(eventBus, mindmapModel, view) {
 	 * @ignore
 	 */
 	
-	$.ajax(
-			{
-				url : 'map/test-process',
-				type : 'post',			
-				dataType : 'json',
-				success : function(data)
-				{
-					var n = data.mindmap.replace("\\","");
-					//data=jQuery.parseJSON(n);
-					
-					var doc=mindmaps.Document.fromJSON(n);
-					mindmapModel.setDocument(doc);
-					view.hideOpenDialog();
-					// empty list and insert list of documents
-					/*var $list = $(".database-list", $dialog).empty();
-
-					$("#template-open-table-item").tmpl(data, {
-						format : function(date) {
-							date = new Date(date);
-							var day = date.getDate();
-							var month = date.getMonth() + 1;
-							var year = date.getFullYear();
-							return day + "/" + month + "/" + year;
-						}
-					}).appendTo($list);*/
-				}
-			})
+	
 	
 	view.openExernalFileClicked = function(e) {
 		var files = e.target.files;

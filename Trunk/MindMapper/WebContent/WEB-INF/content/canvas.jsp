@@ -185,18 +185,23 @@
 
 </head>
 <body>
+<form action="map/test-process" class="UserInputs" method="post">    
+  Map Id    <input type="text" name="mapId" id /> 
+  Input Text <input type="text" name="inputText" />
+   <button id="btnFrmPost1" >Post</button>
+</form>
 	<div id="print-area">
 		<p class="print-placeholder">Please use the print option from the
 			mind map menu</p>
 	</div>
 	<!-- DEBUG -->
-	<div id="debug-warning">Running in DEBUG mode.</div>
+		<!-- <div id="debug-warning">Running in DEBUG mode.</div>  -->
 	<!-- /DEBUG -->
 	<div id="container">
 		<div id="topbar">
 			<div id="toolbar">
 				<div id="logo" class="logo-bg">
-					<span>mindmaps</span>
+					<span>MindMapAutomation</span>
 				</div>
 
 				<div class="buttons">
@@ -211,10 +216,7 @@
 		</div>
 		<div id="bottombar">
 			<div id="about">
-				<a href="about.html" target="_blank">About mindmaps</a> <span
-					style="padding: 0 4px;">|</span> <a style="font-weight: bold"
-					href="https://spreadsheets.google.com/a/drichard.org/spreadsheet/viewform?formkey=dEE3VzFWOFp6ZV9odEhhczVBUUdzc2c6MQ"
-					target="_blank">Feedback</a>
+				
 			</div>
 			<div id="statusbar">
 				<div
@@ -228,7 +230,7 @@
 	<!-- set debug flag for all scripts. Will be removed in production -->
 	<script type="text/javascript">
 		var mindmaps = mindmaps || {};
-		mindmaps.DEBUG = true;
+		mindmaps.DEBUG = false;
 	</script>
 	<!-- /DEBUG -->
 
@@ -299,45 +301,50 @@
 </script>
 /PRODUCTION -->
 <script type="text/javascript">
-var eventBus = new mindmaps.EventBus();
-var shortcutController = new mindmaps.ShortcutController();
-var commandRegistry = new mindmaps.CommandRegistry(shortcutController);
-var mindmapModel = new mindmaps.MindMapModel(eventBus, commandRegistry);
-var presenter = new mindmaps.OpenDocumentPresenter(eventBus,
-		mindmapModel, new mindmaps.OpenDocumentView());
-presenter.go();
+ $(function() {
 $.ajax(
-		{
-			url : 'map/test-process',
-			type : 'post',			
-			dataType : 'json',
-			success : function(data)
 			{
-				var n = data.mindmap.replace("\\","");
-				//data=jQuery.parseJSON(n);
-				
-				var doc=mindmaps.Document.fromJSON(n);
-				var eventBus = new mindmaps.EventBus();
-				var shortcutController = new mindmaps.ShortcutController();
-				var commandRegistry = new mindmaps.CommandRegistry(shortcutController);
-				var mindmapModel = new mindmaps.MindMapModel(eventBus, commandRegistry);
-				var view=new mindmaps.OpenDocumentView()
-				//new mindmaps.NewDocumentView()
-				mindmapModel.setDocument(doc);
-				view.hideOpenDialog();
-				// empty list and insert list of documents
-				/*var $list = $(".database-list", $dialog).empty();
+				url : 'map/test-process',
+				type : 'post',			
+				dataType : 'json',
+				success : function(data)
+				{
+					var n = data.mindmap.replace("\\","");
+					var doc=mindmaps.Document.fromJSON(n);
+					mindmapsModelGloble.setDocument(doc);				
+				}
+			});
+			
+		     $("form.UserInputs").submit(function (event) {
+		    	 
+		            /* stop form from submitting normally */
+		            event.preventDefault();
+		 
+		            /* get some values from elements on the page: */
+		            var $form = $(this);
+		 
+		            var url = $form.attr('action');
+		            var data = $form.serialize()
+		             //Here I call the ajax and post the data
+		            $.ajax({
+		                type: "POST",
+		                dataType: "json",
+		                url: url,
+		                data: data,
+		                success: function (data) {
+		                	var n = data.mindmap.replace("\\","");
+							var doc=mindmaps.Document.fromJSON(n);
+							mindmapsModelGloble.setDocument(doc);	
+		                },
+		                error: function (xhr, status, error) {                   
+		                }
+		            });
+		        });
+		        return false;		    
+}); 
 
-				$("#template-open-table-item").tmpl(data, {
-					format : function(date) {
-						date = new Date(date);
-						var day = date.getDate();
-						var month = date.getMonth() + 1;
-						var year = date.getFullYear();
-						return day + "/" + month + "/" + year;
-					}
-				}).appendTo($list);*/
-			}
-		})</script>
+
+
+		</script>
 </body>
 </html>

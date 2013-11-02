@@ -3,6 +3,7 @@
  * 
  * @constructor
  */
+var mindmapsModelGloble =  {};
 mindmaps.ApplicationController = function() {
 	var eventBus = new mindmaps.EventBus();
 	var shortcutController = new mindmaps.ShortcutController();
@@ -14,7 +15,7 @@ mindmaps.ApplicationController = function() {
 	var helpController = new mindmaps.HelpController(eventBus, commandRegistry);
 	var printController = new mindmaps.PrintController(eventBus,
 			commandRegistry, mindmapModel);
-
+	mindmapsModelGloble=mindmapModel;
 	/**
 	 * Handles the new document command.
 	 */
@@ -113,9 +114,22 @@ mindmaps.ApplicationController = function() {
 		var viewController = new mindmaps.MainViewController(eventBus,
 				mindmapModel, commandRegistry);
 		viewController.go();
-
+        
 		doNewDocument();
-	};
+		};
 
+	this.lod= function(data) {
+			
+	/*	       
+		var viewController = new mindmaps.MainViewController(eventBus,
+				mindmapModel, commandRegistry);
+		viewController.go();*/
+       
+
+		
+		
+			
+						
+		};
 	this.init();
 };

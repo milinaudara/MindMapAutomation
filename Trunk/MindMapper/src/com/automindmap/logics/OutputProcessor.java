@@ -50,7 +50,7 @@ public class OutputProcessor {
 		root.children=getChildren(parantNode.id);
 		return root;
 	}
-
+	
 	private List<ViewNode> getChildren(int id) {
 		List<ViewNode> childrenList= new ArrayList<ViewNode>();
 		List<Node> nodeList=_unitofwork.node.getChildNodes(id);
@@ -61,10 +61,10 @@ public class OutputProcessor {
 			else if(i==1){
 				childrenList.add(getNode(nodeList.get(i),"#83f572", 150	, 0));
 				}
-			else if(i==0){
+			else if(i==2){
 				childrenList.add(getNode(nodeList.get(i),"#83f572", 0	, -150));
 				}
-			else if(i==1){
+			else if(i==3){
 					childrenList.add(getNode(nodeList.get(i),"#83f572", -150	, 0));
 					}
 			
@@ -125,4 +125,5 @@ public class OutputProcessor {
 		dates.modified="1382096602633";
 		return dates;
 	}
+	
 }
