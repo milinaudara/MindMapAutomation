@@ -47,34 +47,44 @@ public class OutputProcessor {
 		root.offset=getOffset(0,0);	
 		root.foldChildren=false;
 		root.branchColor="#000000";
-		root.children=getChildren(parantNode.id);
+		root.children=getChildren(parantNode.id,true,0);
 		return root;
 	}
 	
-	private List<ViewNode> getChildren(int id) {
+	private List<ViewNode> getChildren(int id,boolean root,double perantAngle) {
 		List<ViewNode> childrenList= new ArrayList<ViewNode>();
 		List<Node> nodeList=_unitofwork.node.getChildNodes(id);
+		double x;
+		double y;
+		double angle;
+		if(root){
+		double stepAngle= Math.PI*2/nodeList.size();
 		for (int i = 0; i < nodeList.size(); i++) {	
-			if(i==0){
-			childrenList.add(getNode(nodeList.get(i),"#83f572", 0	, 150));
+			angle=i*stepAngle;
+			x=200*Math.cos(angle);
+			y=200*Math.sin(angle);	        
+		childrenList.add(getNode(nodeList.get(i),"#83f572", x	, y,angle));
+		}	
+		}else {
+			//- (((Math.PI*2/nodeList.size())/6)*nodeList.size())/2
+			angle=perantAngle;
+			for (int i = 0; i < nodeList.size(); i++) {	
+				x=nodeList.size()*80*Math.cos(angle);
+				y=nodeList.size()*80*Math.sin(angle);				
+			childrenList.add(getNode(nodeList.get(i),"#83f572", x	, y,angle));
+			if((i+1)%2==0){
+			angle=angle+ ((Math.PI*2/nodeList.size())/4)*(i+1);
+			}else {
+				angle=angle-((Math.PI*2/nodeList.size())/4)*(i+1);	
 			}
-			else if(i==1){
-				childrenList.add(getNode(nodeList.get(i),"#83f572", 150	, 0));
-				}
-			else if(i==2){
-				childrenList.add(getNode(nodeList.get(i),"#83f572", 0	, -150));
-				}
-			else if(i==3){
-					childrenList.add(getNode(nodeList.get(i),"#83f572", -150	, 0));
-					}
-			
+			}	
 		}
 			
 		
 		return childrenList;
 	}
 
-	private ViewNode getNode(Node parantNode,String bramchColor,int x,int y) {
+	private ViewNode getNode(Node parantNode,String bramchColor,double x,double y,double perantAngle) {
 		ViewNode node=new ViewNode();
 		node.id=parantNode.id;
 		node.parentId=null;
@@ -82,11 +92,11 @@ public class OutputProcessor {
 		node.offset=getOffset(x,y);	
 		node.foldChildren=false;
 		node.branchColor=bramchColor;
-		node.children=getChildren(parantNode.id);
+		node.children=getChildren(parantNode.id,false,perantAngle);
 		return node;
 	}
 	
-	private Dimensions getOffset(int x, int y) {
+	private Dimensions getOffset(double x, double y) {
 	Dimensions offset= new Dimensions();
 	offset.x=x;
 	offset.y=y;
@@ -124,6 +134,13 @@ public class OutputProcessor {
 		dates.created="1382095536507";
 		dates.modified="1382096602633";
 		return dates;
+	
+		
+		
 	}
 	
+	
 }
+
+
+

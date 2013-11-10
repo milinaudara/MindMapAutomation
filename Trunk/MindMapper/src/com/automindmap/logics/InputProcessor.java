@@ -53,11 +53,11 @@ public class InputProcessor {
 
 
 
-	private ChankedObject getChankedObject(String sentencetext){
+	public ChankedObject getChankedObject(String sentencetext){
 
 		
-		String [] tockens=_unitofwork.nlp.getTokerns(sentencetext);		
-		String [] posTags=_unitofwork.nlp.getPosTagging(tockens);		
+		String [] tockens=_unitofwork.nlp.getTokerns(sentencetext);	
+				String [] posTags=_unitofwork.nlp.getPosTagging(tockens);		
 		Span[] chanks=_unitofwork.nlp.getChankes(tockens, posTags);
 		String[] chankedPhrases=_unitofwork.nlp.getChunedPhrases(chanks, tockens);		
 		ArrayList<String> clearedChankedPhrases=_unitofwork.nlp.getClearedChunedPhrases(chankedPhrases);		
@@ -72,16 +72,63 @@ public class InputProcessor {
 		{
 			passerTree += s + " ";
 		}
-		System.out.println(passerTree);
+		
 		// Assign values to chanked object.
 		
 		ChankedObject chankedObject=new ChankedObject();
 		chankedObject.passerTree=passerTree.trim();
 		chankedObject.clearedChanks=clearedChanks;
 		chankedObject.clearedChankedPhrases=clearedChankedPhrases;
-
+        
+		//console write for testing
+		consoleWrite(sentencetext,chanks,chankedPhrases,clearedChankedPhrases,clearedChanks);
 		// Return chankedobject object.
 		return chankedObject;
 	}
 
+private void consoleWrite(String sentencetext,Span[] chanks,String[] chankedPhrases,ArrayList<String> clearedChankedPhrases,ArrayList<String> clearedChanks) {
+	//full sentence	
+	System.out.println(sentencetext);
+	
+	//full paser tree
+	String outputPasertree = "";
+    String  output = "";
+		for (int i=0;i<chanks.length;i++)
+		{
+			outputPasertree += chanks[i].getType() + " ";
+			output += chanks[i].getType() + " => ";
+			output += chankedPhrases[i] + " , ";
+			
+		}
+		
+		System.out.println(outputPasertree);
+		System.out.println(output); 
+		
+		
+		output = "";
+		outputPasertree = "";
+
+		
+		output = "";
+
+		for (int i=0;i<clearedChanks.size();i++)
+		{
+			outputPasertree += clearedChanks.get(i) + " ";
+			output += clearedChanks.get(i)+ " => ";
+			output += clearedChankedPhrases.get(i) + " , ";
+			
+		}
+		
+		System.out.println(outputPasertree);
+		System.out.println(output);
+		output = "";
+		for (String s : clearedChankedPhrases)
+		{
+			output += s + " ";
+		}
+		
+		System.out.println(output);
+		System.out.println("");
+		System.out.println("");
+	}
 }

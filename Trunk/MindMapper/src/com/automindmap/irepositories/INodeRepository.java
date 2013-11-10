@@ -11,7 +11,7 @@ public interface INodeRepository {
 	public boolean updateNode(Node node);
 	
 	
-	public int getNodeId(int map_id,String name);
+	public int getNodeId(int map_id,String value);
 	public int getParentName(int map_id,String name);
 
 	public Node getPerantNode(int mapId);

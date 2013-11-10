@@ -17,27 +17,15 @@ public class NodeRepository implements INodeRepository {
 	
 	
 		if(node.parantId==0){
-		String query = "SELECT * FROM node WHERE map_id= "+node.mapId+" and value='"+node.value+"'";
-		ResultSet resultSet = DBConnection.getDConnection().select(query);
-		try {
-			if (resultSet.next()) {
-				return resultSet.getInt("id");				
+		int id=getNodeId(node.mapId, node.value);
+		if(id!=0){
+			return id;
 			}
-
-		} catch (SQLException e) {				
-			e.printStackTrace();	
-		}
 		}else {
-			String query = "SELECT * FROM node WHERE map_id= "+node.mapId+" and value='"+node.value+"' and parent_id='"+node.parantId+"'";
-			ResultSet resultSet = DBConnection.getDConnection().select(query);
-			try {
-				if (resultSet.next()) {
-					return resultSet.getInt("id");				
-				}
-
-			} catch (SQLException e) {				
-				e.printStackTrace();	
-			}
+			int id=getNodeId(node.mapId, node.value,node.parantId);
+			if(id!=0){
+				return id;
+				}	
 		}
 		String query = "INSERT INTO node(map_id, value,parent_id)"
 				+ " VALUES ('" + node.mapId+"','"+node.value+"','"+node.parantId
@@ -53,11 +41,32 @@ public class NodeRepository implements INodeRepository {
 	}
 
 	@Override
-	public int getNodeId(int map_id, String name) {
-		// TODO Auto-generated method stub
+	public int getNodeId(int map_id, String value) {
+		String query = "SELECT id FROM node WHERE map_id= "+map_id+" and value='"+value+"'";
+		ResultSet resultSet = DBConnection.getDConnection().select(query);
+		try {
+			if (resultSet.next()) {
+				return resultSet.getInt("id");				
+			}
+
+		} catch (SQLException e) {				
+			e.printStackTrace();	
+		}
 		return 0;
 	}
+	public int getNodeId(int map_id, String value, int parentId) {
+		String query = "SELECT * FROM node WHERE map_id= "+map_id+" and value='"+value+"' and parent_id='"+parentId+"'";
+		ResultSet resultSet = DBConnection.getDConnection().select(query);
+		try {
+			if (resultSet.next()) {
+				return resultSet.getInt("id");				
+			}
 
+		} catch (SQLException e) {				
+			e.printStackTrace();	
+		}
+		return 0;
+	}
 	@Override
 	public int getParentName(int map_id, String name) {
 		// TODO Auto-generated method stub

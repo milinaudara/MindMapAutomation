@@ -47,7 +47,7 @@ public class DBConnection {
 	        if (rs.next()){
 	        	lastId=rs.getInt(1);
 	        }
-			
+	        getDatabaseConnetion().close();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,6 +76,7 @@ public class DBConnection {
 			Statement statement = (Statement) getDatabaseConnetion()
 					.createStatement();
 			resultSet = (ResultSet) statement.executeQuery(query);
+		    getDatabaseConnetion().close();	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

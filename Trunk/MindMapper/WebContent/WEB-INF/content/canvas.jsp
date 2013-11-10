@@ -186,8 +186,8 @@
 </head>
 <body>
 <form action="map/test-process" class="UserInputs" method="post">    
-  Map Id    <input type="text" name="mapId" id /> 
-  Input Text <input type="text" name="inputText" />
+  Map Id    <input type="text" name="mapId" style="width: 50px;"/> 
+  Input Text <input type="text" name="inputText" style="width: 1100px;" />
    <button id="btnFrmPost1" >Post</button>
 </form>
 	<div id="print-area">
